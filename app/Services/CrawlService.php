@@ -30,7 +30,6 @@ class CrawlService {
 
     public function crawler(){
 
-        //$client = new Client();
         $crawler = $this->client->request('GET', env('CRAWL_URL'));
         $pageLink = $crawler->getUri();
         $keyWord = $crawler->filter('title')->text();
@@ -64,15 +63,14 @@ class CrawlService {
     public function showCrawl($url)
     {
         return Crawl::where('url', $url)->first();
-        //return $crawl;
-
+        
     }
 
     public function showCrawlPageUrl($url)
     {
         $id = $this->showCrawl($url)['id'];
         return PageUrl::where('crawl_id', $id)->first();
-        //return $links;
+      
     }
 
 
