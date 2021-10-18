@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Crawl;
+use App\Models\PageUrl;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
