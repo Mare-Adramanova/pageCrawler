@@ -47,46 +47,50 @@ class CrawlShow extends Command
      */
     public function handle()
     {
-        $this->info('This are SEO results from the crawl URL');
+        $this->info('Those are SEO results from the crawl URL');
         $this->newLine();
     
         $crawl = $this->crawl->showCrawl(env('CRAWL_URL'));
-        $id = $crawl->id;
-        $this->info('id : '. $id );
-        $this->newLine();
-        $url = $crawl->url;
-        $this->info('Page URL : '. $url );
-        $this->newLine();
-        $title = $crawl->title;
-        $this->info('Page title : '. $title );
-        $this->newLine();
-        $description = $crawl->description;
-        $this->info('Page description : '. $description );
-        $this->newLine();
-        $keywords = $crawl->keywords;
-        $this->info('Page Keywords : '. $keywords );
-        $this->newLine();
-        $number_of_links = $crawl->number_of_links;
-        $this->info('Number of links the page has: '. $number_of_links );
-        $this->newLine();
-        $created_at = $crawl->created_at;
-        $this->info('Date when this crawl was made: '. $created_at );
+        if($crawl == null){
+            $this->info('There are no results yet!');
+        }else{
+            $id = $crawl->id;
+            $this->info('id : '. $id );
+            $this->newLine();
+            $url = $crawl->url;
+            $this->info('Page URL : '. $url );
+            $this->newLine();
+            $title = $crawl->title;
+            $this->info('Page title : '. $title );
+            $this->newLine();
+            $description = $crawl->description;
+            $this->info('Page description : '. $description );
+            $this->newLine();
+            $keywords = $crawl->keywords;
+            $this->info('Page Keywords : '. $keywords );
+            $this->newLine();
+            $number_of_links = $crawl->number_of_links;
+            $this->info('Number of links the page has: '. $number_of_links );
+            $this->newLine();
+            $created_at = $crawl->created_at;
+            $this->info('Date when this crawl was made: '. $created_at );
 
-        $this->newLine();
-        $this->info('This are links related to this page');
-        $this->newLine();
-        $headers = ['id', 'crawl_id', 'url'];
+            $this->newLine();
+            $this->info('This are links related to this page');
+            $this->newLine();
+            $headers = ['id', 'crawl_id', 'url'];
 
-        $links = $this->crawl->showCrawlPageUrl(env('CRAWL_URL'));
-        $url = $links->url; 
-        $id = $links->id;
-        $crawl_id = $links->crawl_id;
-        $explodUrl = explode(',', $url);
-        $table_rows = [];
-        foreach($explodUrl as $url){
-            $table_rows[] = [$id, $crawl_id, $url];
+            $links = $this->crawl->showCrawlPageUrl(env('CRAWL_URL'));
+            $url = $links->url; 
+            $id = $links->id;
+            $crawl_id = $links->crawl_id;
+            $explodUrl = explode(',', $url);
+            $table_rows = [];
+            foreach($explodUrl as $url){
+                $table_rows[] = [$id, $crawl_id, $url];
+            }
+            $this->table($headers, $table_rows);
         }
-        $this->table($headers, $table_rows);
         return 0;
     }
 }

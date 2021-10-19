@@ -37,7 +37,7 @@ class CrawlService {
         $description = $crawler->filter('.elementor-element-381a0e70')->text();
         $links_count = $crawler->filter('a')->count(); 
         
-        $crawl = $this->crawl;
+        $crawl = $this->crawl->firstOrNew();
         $crawl->url = $pageLink;
         $crawl->title = $title;
         $crawl->keywords = $keyWord;
@@ -48,12 +48,12 @@ class CrawlService {
         $all_links = [];
         if($links_count > 0){
             $links = $crawler->filter('a')->links();
-        foreach ($links as $link) {
-            $all_links[] = $link->getURI();
-        }
+            foreach ($links as $link) {
+                $all_links[] = $link->getURI();
+            }
         $all_links = array_unique($all_links);
         $all_links = implode(',', $all_links);
-        $crawl->pageUrls()->create(['url'=>$all_links]);
+        $crawl->pageUrls()->updateOrCreate(['url'=>$all_links]);
         }else{
             echo "No links in this page";
         }
