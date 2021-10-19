@@ -37,7 +37,7 @@ class CrawlService {
         $description = $crawler->filter('.elementor-element-381a0e70')->text();
         $links_count = $crawler->filter('a')->count(); 
         
-        $crawl = $this->crawl->firstOrNew();
+        $crawl = $this->crawl->firstOrNew(['url' => $pageLink]);
         $crawl->url = $pageLink;
         $crawl->title = $title;
         $crawl->keywords = $keyWord;
